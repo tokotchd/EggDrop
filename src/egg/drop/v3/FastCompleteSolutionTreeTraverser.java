@@ -14,9 +14,7 @@ public class FastCompleteSolutionTreeTraverser
 	{
 		solutionCache = new Hashtable<ProblemState, SolutionSet>();
 	}
-	
-	
-	public SolutionSet getWorstCaseSolutionSet(int floorsRemaining, int eggsRemaining)
+	public SolutionSet getWorstCaseSolutionSets(int floorsRemaining, int eggsRemaining)
 	{
 		ProblemState abstractProblemState = new ProblemState(floorsRemaining, eggsRemaining);
 		
@@ -50,9 +48,11 @@ public class FastCompleteSolutionTreeTraverser
 		//Case 4, perform one step of the linear search.
 		else if(eggsRemaining == 1)
 		{
-			Hashtable<Integer,SolutionSet> firstFloorDroppedSolutionSet = new  Hashtable<Integer,SolutionSet>(1);
-			SolutionSet droppedOnLowestFloor = getWorstCaseSolutionSet(floorsRemaining - 1, eggsRemaining);
-			firstFloorDroppedSolutionSet.put(1, droppedOnLowestFloor);
+			Hashtable<Integer,List<SolutionSet>> firstFloorDroppedSolutionSet = new  Hashtable<Integer,List<SolutionSet>>(1);
+			List<SolutionSet> firstFloorDroppedSolutionList = new ArrayList<SolutionSet>(1);
+			SolutionSet droppedOnLowestFloor = getWorstCaseSolutionSets(floorsRemaining - 1, eggsRemaining);
+			firstFloorDroppedSolutionList.add(droppedOnLowestFloor);
+			firstFloorDroppedSolutionSet.put(1, firstFloorDroppedSolutionList);
 			
 			CompositeSolutionSet baseCase4SolutionSet = new CompositeSolutionSet(abstractProblemState, firstFloorDroppedSolutionSet);
 			
@@ -68,24 +68,35 @@ public class FastCompleteSolutionTreeTraverser
 		else
 		{
 			//Case 6, recursive check for solution Monte Carlo style.
-			final Hashtable<Integer,SolutionSet> dropSolutionSets = new Hashtable<Integer, SolutionSet>();
+			final Hashtable<Integer,List<SolutionSet>> dropSolutionSets = new Hashtable<Integer, List<SolutionSet>>();
 			for(int guessedFloor = 1; guessedFloor < floorsRemaining; guessedFloor++)
 			{
 				//Egg Survives on Floor 3 of 10 - new range for minimum breaking floor is [4,10] -> 6 floors remaining
 				//Egg Breaks on Floor 3 of 10 - new range for minimum breaking floor is [1,3] -> 3 floors remaining
 				
 				//Egg Survives
-				SolutionSet bestCaseSurvive = getWorstCaseSolutionSet(floorsRemaining - (guessedFloor), eggsRemaining);
+				SolutionSet worstCasesForEggSurviving = getWorstCaseSolutionSets(floorsRemaining - guessedFloor, eggsRemaining);
 				
 				//Egg breaks
-				SolutionSet bestCaseBreak = getWorstCaseSolutionSet(guessedFloor, eggsRemaining - 1);		
+				SolutionSet worstCasesForEggBreaking = getWorstCaseSolutionSets(guessedFloor, eggsRemaining - 1);		
 				
-				//Determining worst case of egg breaking now and egg not breaking now.
-				SolutionSet worstOfBoth;
-				if(bestCaseSurvive.compareTo(bestCaseBreak) < 0) //if breaking is the worst case.
-					worstOfBoth = bestCaseBreak;
+				//If the best cases for each worst case solution set are equal in length, that means there are two unique worst cases for that 
+				
+				//Here, we compare the best cases from the two possible sub-solution-sets from the results of the drop 
+				//and take the worst result of the two to be the worst result for this drop, with the inclusion of this drop.
+				//If those two best cases are equal in length, however, that means that there are two unique "best worst" cases
+				//for dropping on this floor and we must add them both.
+				List<SolutionSet> worstOfBoth = new ArrayList<SolutionSet>(2); //length of either 2 or 1.
+				int comparison = worstCasesForEggSurviving.compareTo(worstCasesForEggBreaking);
+				if(comparison == 0) //if the two cases are equally as bad, then there exists two unique worst case scenarios for this drop.
+				{
+					worstOfBoth.add(worstCasesForEggBreaking);
+					worstOfBoth.add(worstCasesForEggSurviving);
+				}
+				else if(comparison < 0) //if breaking is the worst case.
+					worstOfBoth.add(worstCasesForEggBreaking);
 				else
-					worstOfBoth = bestCaseSurvive;
+					worstOfBoth.add(worstCasesForEggSurviving);
 				
 				dropSolutionSets.put(guessedFloor, worstOfBoth);
 			}

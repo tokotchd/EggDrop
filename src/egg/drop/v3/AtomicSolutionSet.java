@@ -1,5 +1,7 @@
 package egg.drop.v3;
 
+import java.io.PrintStream;
+
 //An atomic solution set represents any of the base cases of the egg drop problem that are not expressed in terms of other solutions.
 public class AtomicSolutionSet extends SolutionSet
 {
@@ -11,15 +13,15 @@ public class AtomicSolutionSet extends SolutionSet
 	}
 	
 	@Override
-	public int getBestCaseSolutionLength() 
+	public int getBestWorstCaseSolutionLength() 
 	{
 		return solution.size();
 	}
 
 	@Override
-	public void printAllSolutionSets(String thisLinePrefix) 
+	public void printAllSolutionSets(PrintStream printStream, String thisLinePrefix) 
 	{
-		System.out.println(thisLinePrefix + this.toString());
+		printStream.println(thisLinePrefix + this.toString());
 	}
 
 	@Override

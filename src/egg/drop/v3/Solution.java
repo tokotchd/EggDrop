@@ -45,11 +45,6 @@ public class Solution implements Comparable<Solution>
 	public String toString() 
 	{
 		String stringToReturn = "";
-		if(EggDropv3.debug)
-		{
-			for(int i = 0; i < listOfFloorsDropped.size() + 1;i++)
-				stringToReturn += "\t";
-		}
 		stringToReturn += "[";
 		for(int i = 0; i < listOfFloorsDropped.size();i++)
 		{
