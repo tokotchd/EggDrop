@@ -1,8 +1,8 @@
 package egg.drop.v3;
 
 public class EggDropv3{
-	public static final int NUM_FLOORS_INITIAL = 100;
-	public static final int NUM_EGGS_INITIAL = 3;
+	public static final int NUM_FLOORS_INITIAL = 10;
+	public static final int NUM_EGGS_INITIAL = 2;
 	public static final boolean debug = true;
 		
 	//Version 3 creates and traverses the entire solution tree for a given problem state, but does not keep context.
@@ -15,5 +15,7 @@ public class EggDropv3{
 		SolutionSet optimizedWorstCaseSolutionSet = completeWorstCaseSolutionSet.getOptimizedSolutionSetOnly();
 		System.out.println(optimizedWorstCaseSolutionSet);
 		optimizedWorstCaseSolutionSet.printAllSolutionSets("");
+		System.out.println(completeWorstCaseSolutionSet.getNumberOfUniqueSolutions());
+		System.out.println(optimizedWorstCaseSolutionSet.getNumberOfUniqueSolutions());
 	}
 }

@@ -10,6 +10,7 @@ public class CompositeSolutionSet extends SolutionSet
 	private final SolutionSet bestSolutionSet; //all variables are cached for speed
 	private final int bestSolutionDrop;
 	private final int bestSolutionSize;
+	private final double numberOfUniqueSolutions;
 	
 	public CompositeSolutionSet(ProblemState problemState, Hashtable<Integer,SolutionSet> dropSolutionSets) 
 	{
@@ -30,8 +31,21 @@ public class CompositeSolutionSet extends SolutionSet
 		this.bestSolutionDrop = tempBestSolutionDrop;
 		this.bestSolutionSet = tempBestSolutionSet;
 		this.bestSolutionSize = tempBestSolutionSet.getBestCaseSolutionLength() + 1;
+		this.numberOfUniqueSolutions = calculateNumberOfUniqueSolutions();
 	}
 	
+	private int calculateNumberOfUniqueSolutions() 
+	{
+		
+		//recursively drill down to collect size of each solutionSet and add them together?
+		int totalSolutions = 0;
+		for(SolutionSet dropSolutionSet: dropSolutionSets.values())
+		{
+			totalSolutions += dropSolutionSet.getNumberOfUniqueSolutions();
+		}
+		return totalSolutions;
+	}
+
 	@Override
 	public SolutionSet getOptimizedSolutionSetOnly()
 	{
@@ -67,5 +81,11 @@ public class CompositeSolutionSet extends SolutionSet
 		{
 			dropSolutionSet.printAllSolutionSets(thisLinePrefix + super.toString() + " ");
 		}
+	}
+
+	@Override
+	public double getNumberOfUniqueSolutions() 
+	{
+		return this.numberOfUniqueSolutions;
 	}
 }

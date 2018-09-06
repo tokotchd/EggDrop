@@ -23,4 +23,5 @@ public abstract class SolutionSet implements Comparable<SolutionSet>
 	
 	public abstract void printAllSolutionSets(String thisLinePrefix);
 	public abstract SolutionSet getOptimizedSolutionSetOnly();
+	public abstract double getNumberOfUniqueSolutions();
 }
