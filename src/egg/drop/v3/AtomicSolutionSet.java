@@ -27,4 +27,10 @@ public class AtomicSolutionSet extends SolutionSet
 	{
 		return this;
 	}
+
+	@Override
+	public double getNumberOfUniqueSolutions() 
+	{
+		return 1;
+	}
 }
