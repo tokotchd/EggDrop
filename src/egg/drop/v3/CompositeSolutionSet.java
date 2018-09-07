@@ -38,12 +38,12 @@ public class CompositeSolutionSet extends SolutionSet
 		this.numberOfUniqueSolutions = calculateNumberOfUniqueSolutions();
 	}
 	
-	private int calculateNumberOfUniqueSolutions() 
+	private double calculateNumberOfUniqueSolutions() 
 	{
 		//recursively drill down to collect size of each solutionSet and add them together.
 		//TODO - come back here and sanity check that multiplying the number of unique worst case solutions for this drop times 2
 		//ends up being the same amount as adding the two together with proper traversal.
-		int totalSolutions = 0;
+		double totalSolutions = 0;
 		for(List<SolutionSet> worstCaseSolutionSets: worstCaseDropSolutionSets.values())
 		{
 			for(SolutionSet worstCaseSolutionSet: worstCaseSolutionSets)
