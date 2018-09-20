@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public class EggDropv3{
-	public static final int NUM_FLOORS_INITIAL = 93;
+	public static final int NUM_FLOORS_INITIAL = 100;
 	public static final int NUM_EGGS_INITIAL = 3;
 		
 	//Version 3 creates and traverses the entire solution tree for a given problem state, but does not keep context.
@@ -26,7 +26,6 @@ public class EggDropv3{
 		System.out.println("---------------------------------Cool Metadata----------------------------------");
 		System.out.println("Number of unique solutions: " + completeWorstCaseSolutionSet.getNumberOfUniqueSolutions());
 		System.out.println("Number of unique optimum solutions: " + optimizedWorstCaseSolutionSet.getNumberOfUniqueSolutions());
-		
 		try 
 		{
 			String filePath = ("/home/tokotchd/eggNodesOptimum-" + NUM_FLOORS_INITIAL + "-" + NUM_EGGS_INITIAL + ".txt");

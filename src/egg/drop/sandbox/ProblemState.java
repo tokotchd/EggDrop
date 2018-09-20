@@ -1,4 +1,4 @@
-package egg.drop.v2;
+package egg.drop.sandbox;
 
 import java.util.Objects;
 
@@ -11,8 +11,6 @@ public class ProblemState
 	{
 		this.currentFloors = currentFloors;
 		this.currentEggs = currentEggs;
-		if(EggDropv2.debug)
-			System.out.println(this);
 	}
 	
 	public String toString() 
